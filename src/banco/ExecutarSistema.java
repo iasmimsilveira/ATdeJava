@@ -14,8 +14,9 @@ public class ExecutarSistema {
     public static void main(String[] args) {
         final int FIM = 5;
         int opcao;
+        String data = Util.getDate();
+        System.out.println(data);
         ArrayList<Conta> contas = new ArrayList<>();
-        //ArrayList<Operacao> operacoes = new ArrayList<>();
 
         contruirArquivo(contas);
         opcao = menu(MenuEnum.OPCOES_DO_USUARIO);
@@ -31,8 +32,8 @@ public class ExecutarSistema {
         Scanner contasScanner;
         Scanner operacoesScanner;
 
-        contasScanner = GerenciarArquivo.abrirLeitura(Constants.CONTAS_NOME_ARQUIVO);
-        operacoesScanner = GerenciarArquivo.abrirLeitura(Constants.OPERACOES_NOME_ARQUIVO);
+        contasScanner = GerenciarArquivo.abrirLeitura(Constants.CONTAS_TXT);
+        operacoesScanner = GerenciarArquivo.abrirLeitura(Constants.OPERACOES_TXT);
         if (contasScanner != null) {
             Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.ERRO_LER_ARQUIVO);
             return;
@@ -43,15 +44,14 @@ public class ExecutarSistema {
     }
 
     private static void updateArquivoContas(ArrayList<Conta> contas) {
-        Formatter exit = GerenciarArquivo.abrirGravacao(Constants.CONTAS_NOME_ARQUIVO);
-        GerenciarArquivo.gravarConta(exit, contas);
-        GerenciarArquivo.fecharArquivo(exit);
+        Formatter exitContas = GerenciarArquivo.abrirGravacao(Constants.CONTAS_TXT);
+        Formatter exitOperacoes = GerenciarArquivo.abrirGravacao(Constants.OPERACOES_TXT);
+
+        GerenciarArquivo.gravarConta(exitContas, contas);
+        GerenciarArquivo.gravarConta(exitOperacoes, contas);
+        GerenciarArquivo.fecharArquivo(exitContas);
+        GerenciarArquivo.fecharArquivo(exitOperacoes);
     }
-    /*private static void updateArquivoOperacoes(ArrayList<Operacao> operacoes) {
-        Formatter exit = GerenciarArquivo.abrirGravacao(Constants.OPERACOES_NOME_ARQUIVO);
-        GerenciarArquivo.gravarOperacao(exit, operacoes);
-        GerenciarArquivo.fecharArquivo(exit);
-    }*/
 
     private static int menu(MenuEnum tiposDeOpcao) {
         int opcao;
@@ -71,7 +71,7 @@ public class ExecutarSistema {
                 Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.INVALID_MESSAGE_TYPE);
                 break;
         }
-        opcao = Util.lerIntValue(menuOpcao);
+        opcao = Util.lerValorInt(menuOpcao);
         return opcao;
     }
 
@@ -89,7 +89,6 @@ public class ExecutarSistema {
             case 4:
                 mostrarRelatorio(contas);
                 break;
-            case 5:
             default:
                 Util.mostrarMsg(TipoDeMsgEnum.OUT, Constants.INVALID_OPERACAO);
                 break;
@@ -100,7 +99,8 @@ public class ExecutarSistema {
         int tipoDeConta;
         int numConta;
 
-        numConta = Util.lerIntValue(Constants.ENTER_NUMCONTA);
+        //Verifição para saber se a conta já existe
+        numConta = Util.lerValorInt(Constants.ENTER_NUMCONTA);
         if (Validacao.contaRepetida(numConta, contas)) {
             Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.CONTA_EXISTE);
             return;
@@ -122,24 +122,23 @@ public class ExecutarSistema {
     private static void setDadosContaPF(ArrayList<Conta> contas, int numConta) {
         ContaPF contaPF = new ContaPF();
 
-        contaPF.setNumConta(Util.lerIntValue(Constants.ENTER_NUMCONTA));
+        contaPF.setNumConta(Util.lerValorInt(Constants.ENTER_NUMCONTA));
         contaPF.setNome(Util.lerNome(Constants.ENTER_TITULAR));
-        contaPF.setCpf(String.valueOf(Util.lerIntValue(Constants.ENTER_CPF)));
-        contaPF.setSaldo(Util.lerDoubleValue(Constants.ENTER_SALDO));
-        contaPF.setChequeEspecial(Util.lerDoubleValue(Constants.ENTER_CHEQUE));
+        contaPF.setCpf(String.valueOf(Util.lerValorInt(Constants.ENTER_CPF)));
+        contaPF.setSaldo(Util.lerValorDouble(Constants.ENTER_SALDO));
+        contaPF.setChequeEspecial(Util.lerValorDouble(Constants.ENTER_CHEQUE));
         System.out.println(contaPF);
         contas.add(contaPF);
         Util.mostrarMsg(TipoDeMsgEnum.OUT, Constants.CONTA_REGISTRADA);
         }
 
-
     private static void setDadosContaPJ(ArrayList<Conta> contas, int numConta) {
         ContaPJ contaPJ = new ContaPJ();
 
-        contaPJ.setNumConta(Util.lerIntValue(Constants.ENTER_NUMCONTA));
+        contaPJ.setNumConta(Util.lerValorInt(Constants.ENTER_NUMCONTA));
         contaPJ.setNome(Util.lerNome(Constants.ENTER_EMPRESA));
-        contaPJ.setCnpj(String.valueOf(Util.lerIntValue(Constants.ENTER_CNPJ)));
-        contaPJ.setSaldo(Util.lerDoubleValue(Constants.ENTER_SALDO));
+        contaPJ.setCnpj(String.valueOf(Util.lerValorInt(Constants.ENTER_CNPJ)));
+        contaPJ.setSaldo(Util.lerValorDouble(Constants.ENTER_SALDO));
         contas.add(contaPJ);
         Util.mostrarMsg(TipoDeMsgEnum.OUT, Constants.CONTA_REGISTRADA);
 
@@ -147,7 +146,7 @@ public class ExecutarSistema {
 
     private static void alterarSaldo(ArrayList<Conta> contas) {
         int numConta;
-        double valorDaOperaca = 0;
+        double valorDaOperacao = 0;
         TipoDeOperacaoEnum tipoDeOperacao;
         Conta conta;
 
@@ -155,7 +154,7 @@ public class ExecutarSistema {
             Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.EMPTY_LIST);
             return;
         }
-        numConta = Util.lerIntValue(Constants.ENTER_NUMCONTA);
+        numConta = Util.lerValorInt(Constants.ENTER_NUMCONTA);
         if(!Validacao.contaRepetida(numConta, contas)) {
             Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.CONTA_NOT_FOUND);
             return;
@@ -165,29 +164,29 @@ public class ExecutarSistema {
 
         switch (tipoDeOperacao) {
             case CREDITO:
-                valorDaOperaca = Util.lerDoubleValue(Constants.ENTER_SACAR);
-                conta.setSaldo(conta.getSaldo() + valorDaOperaca);
-                setDadoDaOperacao(numConta, Constants.CREDITO, valorDaOperaca,contas);
-                double saldoAtualizado = conta.getSaldo() + valorDaOperaca;
-                System.out.println("VALOR DA OPERAÇÃO..." + valorDaOperaca);
+                valorDaOperacao = Util.lerValorDouble(Constants.ENTER_VALOR);
+                conta.setSaldo(conta.getSaldo() + valorDaOperacao);
+                setDadoDaOperacao(numConta, Constants.CREDITO, valorDaOperacao,contas);
+                double saldoAtualizado = conta.getSaldo() + valorDaOperacao;
+                System.out.println("VALOR DA OPERAÇÃO..." + valorDaOperacao);
                 System.out.println("SALDO ATUALIZADO...." + saldoAtualizado);
                 break;
             case DEBITO:
-                valorDaOperaca = Util.lerDoubleValue(Constants.ENTER_SACAR);
+                valorDaOperacao = Util.lerValorDouble(Constants.ENTER_VALOR);
                 if (conta instanceof ContaPF) {
-                    if (!Validacao.debitar(valorDaOperaca, valorDaOperaca, valorDaOperaca)) {
+                    if (!Validacao.debitar(valorDaOperacao, valorDaOperacao, valorDaOperacao)) {
                         Util.mostrarMsg(TipoDeMsgEnum.OUT, Constants.INVALID_DEBIT_OPERATION_SPECIAL_CHECK);
                         return;
                     }
-                    conta.setSaldo(conta.getSaldo() - valorDaOperaca);
-                    setDadoDaOperacao(numConta, Constants.DEBITO, valorDaOperaca,contas);
+                    conta.setSaldo(conta.getSaldo() - valorDaOperacao);
+                    setDadoDaOperacao(numConta, Constants.DEBITO, valorDaOperacao,contas);
                 } else {
                     if (!Validacao.contaPossuiSaldo(conta)) {
                         Util.mostrarMsg(TipoDeMsgEnum.OUT, Constants.INVALID_DEBIT_OPERATION);
                         return;
                     }
-                    conta.setSaldo(conta.getSaldo() - valorDaOperaca);
-                    setDadoDaOperacao(numConta, Constants.DEBITO, valorDaOperaca,contas);
+                    conta.setSaldo(conta.getSaldo() - valorDaOperacao);
+                    setDadoDaOperacao(numConta, Constants.DEBITO, valorDaOperacao,contas);
                 }
                 break;
         }
@@ -211,25 +210,28 @@ public class ExecutarSistema {
         int numConta;
         int contaIndice;
 
+        //Verifica se a lista está vazia
+        if(contas.isEmpty()) {
+            Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.EMPTY_LIST);
+        }
+        //Lê a conta, se já existe, mensagem de erro
         if (!Validacao.contaJaExiste(contas)) {
             Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.EMPTY_LIST);
             return;
         }
-        numConta = Util.lerIntValue(Constants.ENTER_NUMCONTA);
+        numConta = Util.lerValorInt(Constants.ENTER_NUMCONTA);
         if (!Validacao.contaRepetida(numConta, contas)) {
             Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.ACCOUNT_NOT_FOUND);
             return;
         }
-        if (!Validacao.removerConta(numConta, contas)) {
-            Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.CONTA_DELETADA);
+        if (!Validacao.removerConta(numConta, contas)) { // Remove apenas se saldo = 0
+            Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.CONTA_REMOVIDA);
             return;
         }
         contaIndice = Util.getIndexConta(numConta, contas);
         contas.remove(contaIndice);
-        Util.mostrarMsg(TipoDeMsgEnum.OUT, Constants.CONTA_DELETADA);
+        Util.mostrarMsg(TipoDeMsgEnum.OUT, Constants.CONTA_REMOVIDA);
     }
-
-
 
     private static void mostrarRelatorio(ArrayList<Conta> contas) {
         int opcao;
@@ -267,7 +269,7 @@ public class ExecutarSistema {
 
     private static void saldoAcimaDeX(ArrayList<Conta> contas) {
         for (Conta conta : contas) {
-            if (conta.getSaldo() > 2000) {
+            if (conta.getSaldo() > 1000) {
                 Util.mostrarMsg(TipoDeMsgEnum.OUT, conta.toString());
             }
         }
@@ -280,7 +282,7 @@ public class ExecutarSistema {
                 Util.mostrarMsg(TipoDeMsgEnum.OUT, conta.toString());
             }
         }
-        Util.mostrarMsg(TipoDeMsgEnum.OUT, Constants.CONTA_PF);
+        Util.mostrarMsg(TipoDeMsgEnum.OUT, Constants.CONTA_PJ);
         for (Conta conta : contas) {
             if (conta instanceof ContaPJ) {
                 Util.mostrarMsg(TipoDeMsgEnum.OUT, conta.toString());
@@ -291,26 +293,19 @@ public class ExecutarSistema {
     private static void opRealizadaEmConta(ArrayList<Conta> contas) {
         int numConta;
 
-        numConta = Util.lerIntValue(Constants.ENTER_NUMCONTA);
-        if (!Validacao.contaRepetida(numConta, contas)) {
+        numConta = Util.lerValorInt(Constants.ENTER_NUMCONTA);
+        if (Validacao.contaRepetida(numConta, contas)) {
             Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.ACCOUNT_NOT_FOUND);
             return;
         }
         for (Conta conta : contas) {
             if (conta.getNumConta() == numConta) {
-                for (Operacao operation : conta.getOperacoes()) {
-                    Util.mostrarMsg(TipoDeMsgEnum.OUT, operation.toString());
+                for (Operacao operacao : conta.getOperacoes()) {
+                    Util.mostrarMsg(TipoDeMsgEnum.OUT, operacao.toString());
                 }
             }
         }
     }
 }
-
-    /*private static void showMessage(String type, String msg) {
-        switch (type) {
-            case Constants.OUT: System.out.println(msg); break;
-            case Constants.ERR: System.err.println(msg); break;
-            default: System.err.println(Constants.INVALID_MESSAGE_TYPE); break;
-        }*/
 
 

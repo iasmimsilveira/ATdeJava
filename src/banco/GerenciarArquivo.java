@@ -1,26 +1,18 @@
 package banco;
 
 import auxiliar.TipoDeContaEnum;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import auxiliar.Util;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Scanner;
+import auxiliar.Constants;
+import auxiliar.TipoDeMsgEnum;
 
 public class GerenciarArquivo {
+
     public static Scanner abrirLeitura(String nomeArq) {
-        Scanner entrada = null;
-
-        try {
-            entrada = new Scanner(new File(nomeArq));
-        } catch (FileNotFoundException ex) {
-            System.out.println("Erro: abertura do arquivo");
-        }
-        return entrada;
-    }
-
-    public static Scanner abrirLeitura2(String nomeArq) {
         Scanner entrada = null;
 
         try {
@@ -47,16 +39,17 @@ public class GerenciarArquivo {
         }
     }
 
-    public static void lerArquivo( ArrayList<Conta> contas,Scanner contasScanner, ArrayList<Operacao> operacoes, Scanner operacoesScanner) {
+    public static void lerArquivo( ArrayList<Conta> contas, Scanner contasScanner, Scanner operacoesScanner) {
         String linha;
         String[] campos;
 
         while (contasScanner.hasNext()) {
             linha = contasScanner.nextLine();
             campos = linha.split(";");
-            if (campos[0] == TipoDeContaEnum.PF.toString()) {
-                ContaPF accountPF = new ContaPF(campos[1], Integer.parseInt(campos[2]), Double.parseDouble(campos[3]), campos[4], Double.parseDouble(campos[5]));
-                contas.add(accountPF);
+
+            if (TipoDeContaEnum.PF.toString().equals(campos[0])) {
+                ContaPF contaPF = new ContaPF(campos[1], Integer.parseInt(campos[2]), Double.parseDouble(campos[3]), campos[4], Double.parseDouble(campos[5]));
+                contas.add(contaPF);
             } else {
                 ContaPJ contaPJ = new ContaPJ(campos[1], Integer.parseInt(campos[2]), Double.parseDouble(campos[3]), campos[4]);
                 contas.add(contaPJ);
@@ -64,7 +57,6 @@ public class GerenciarArquivo {
         }
         lerArquivoOperacao(contas, operacoesScanner);
     }
-
 
     public static Formatter abrirGravacao(String nomeArq) {
         Formatter saida = null;
@@ -107,6 +99,4 @@ public class GerenciarArquivo {
         }
     }
 
-    public static void lerArquivo(ArrayList<Conta> contas, Scanner contasScanner, Scanner operacoesScanner) {
-    }
 }

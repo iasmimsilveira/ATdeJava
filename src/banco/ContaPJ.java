@@ -25,11 +25,6 @@ public class ContaPJ extends Conta{
         sb.append("cnpj: ").append(cnpj).append("\n");
         return super.toString() + sb.toString();
     }
-
-    @Override
-    public void add(Operacao operacao) {
-
-    }
 }
 
 

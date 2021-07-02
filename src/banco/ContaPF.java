@@ -34,10 +34,5 @@ public class ContaPF extends Conta {
         sb.append("Cheque especial: ").append(chequeEspecial).append("\n");
         return super.toString() + sb.toString();
     }
-
-    @Override
-    public void add(Operacao operacao) {
-
-    }
 }
 

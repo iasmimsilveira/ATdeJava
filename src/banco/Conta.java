@@ -2,7 +2,7 @@ package banco;
 
 import java.util.ArrayList;
 
-public abstract class Conta {
+public class Conta {
     private String nome;
     private int numConta;
     private double saldo;
@@ -17,14 +17,6 @@ public abstract class Conta {
         this.numConta = numConta;
         this.saldo = saldo;
         this.operacoes = new ArrayList<Operacao>();
-    }
-
-    public ArrayList<Operacao> getOperacoes() {
-        return operacoes;
-    }
-
-    public void setOperacoes(ArrayList<Operacao> operacoes) {
-        this.operacoes = operacoes;
     }
 
     public String getNome() {
@@ -51,14 +43,20 @@ public abstract class Conta {
         this.saldo = saldo;
     }
 
+    public ArrayList<Operacao> getOperacoes() {
+        return operacoes;
+    }
+
+    public void setOperacoes(ArrayList<Operacao> operacoes) {
+        this.operacoes = operacoes;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("NOME: ").append(nome).append("\n");
         sb.append("NÚMERO DA CONTA: ").append(numConta).append("\n");
         sb.append("SALDO: ").append(saldo).append("\n");
-        return sb.toString();
+        return sb.toString()+ sb.toString();
     }
-
-    public abstract void add(Operacao operacao);
 }

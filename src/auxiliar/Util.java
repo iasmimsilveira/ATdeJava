@@ -1,15 +1,17 @@
 package auxiliar;
 
 import java.util.*;
-
 import banco.Conta;
-import auxiliar.Constants;
-import auxiliar.TipoDeMsgEnum;
-import auxiliar.Validacao;
-import auxiliar.TipoDeOperacaoEnum;
+import java.util.Date;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
+import auxiliar.Constants;
+import auxiliar.TipoDeContaEnum;
+import auxiliar.TipoDeOperacaoEnum;
+import auxiliar.Validacao;
 
 public class Util {
     public static String getDate() {
@@ -26,10 +28,10 @@ public class Util {
         int opcao;
         TipoDeOperacaoEnum tipo = null;
 
-        opcao = Util.lerIntValue(Constants.TIPO_OPERACOES_MENU);
+        opcao = Util.lerValorInt(Constants.TIPO_OPERACOES_MENU);
         while (!Validacao.validarTipoDeOperacao(opcao)) {
             Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.INVALID_OPERACAO);
-            opcao = Util.lerIntValue(Constants.TIPO_OPERACOES_MENU);
+            opcao = Util.lerValorInt(Constants.TIPO_OPERACOES_MENU);
         }
         switch (opcao) {
             case 1 -> tipo = TipoDeOperacaoEnum.CREDITO;
@@ -74,9 +76,9 @@ public class Util {
         return value;
     }
 
-    public static int lerIntValue(String menuOpcao) {
+    public static int lerValorInt(String menuOpcao) {
         int value = 0;
-        boolean isValidInput = false;
+        boolean entradaValida = false;
         Scanner scanner = new Scanner(System.in);
 
         do {
@@ -88,18 +90,18 @@ public class Util {
                     Util.mostrarMsg(TipoDeMsgEnum.OUT, menuOpcao);
                     value = scanner.nextInt();
                 }
-                isValidInput = true;
+                entradaValida = true;
             } catch (InputMismatchException e) {
                 Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.DADO_INVALIDO);
                 scanner.next();
             }
-        } while (!isValidInput);
+        } while (!entradaValida);
         return value;
     }
 
-    public  static double lerDoubleValue(String msg) {
+    public  static double lerValorDouble(String msg) {
         double value = 0;
-        boolean isValidInput = false;
+        boolean entradaValida = false;
         Scanner scanner = new Scanner(System.in);
 
         do {
@@ -111,12 +113,12 @@ public class Util {
                     Util.mostrarMsg(TipoDeMsgEnum.OUT, msg);
                     value = scanner.nextDouble();
                 }
-                isValidInput = true;
+                entradaValida = true;
             } catch (InputMismatchException e) {
                 Util.mostrarMsg(TipoDeMsgEnum.ERR, Constants.DADO_INVALIDO);
                 scanner.next();
             }
-        } while (!isValidInput);
+        } while (!entradaValida);
         return value;
     }
 

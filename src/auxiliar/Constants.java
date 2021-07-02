@@ -8,15 +8,16 @@ public class Constants {
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
 
-    public static final int QTDE = 100;
-    public static final Integer[] OPCOES = {1, 2, 3, 4, 5};
+    // Nome dos arquivos txt
+    public static final String CONTAS_TXT = "contas.txt";
+    public static final String OPERACOES_TXT = "operacoes.txt";
 
-    //Message Types
+    //Tipo de Mensagem
     public static final String OUT = "out";
     public static final String ERR = "err";
 
 
-    // Operation types
+    // Tipo de Operação
     public static final String CREDITO = "Crédito";
     public static final String DEBITO = "Débito";
 
@@ -24,7 +25,7 @@ public class Constants {
     // OUT Messages
     public static final String EMPTY_MESSAGE = "";
     public static final String OPERACAO_REALIZADA = "OPERAÇÃO REALIZADA COM SUCESSO!!!";
-    public static final String CONTA_DELETADA = "CONTA DELETADA COM SUCESSO!!!";
+    public static final String CONTA_REMOVIDA= "CONTA REMOVIDA COM SUCESSO!!!";
     public static final String CONTA_REGISTRADA = "SEJA BEM-VINDO!\n"+ "CONTA CADASTRADA COM SUCESSO!!!";
     public static final String CONTA_PF = "CONTAS - PESSOAS FÍSICAS";
     public static final String CONTA_PJ = "CONTAS - PESSOAS JURÍDICAS";
@@ -45,10 +46,6 @@ public class Constants {
     public static final String NAO_PODE_REMOVER = "ESSA CONTA NÃO PODE SER REMOVIDA";
     public static final String INVALID_DEBIT_OPERATION = "Débito inválido, a conta não possui saldo";
     public static final String INVALID_DEBIT_OPERATION_SPECIAL_CHECK = "Débito inválido, a conta não possui saldo";
-    // Nome arquivo
-    public static final String NOME_ARQ = "contas.txt";
-    public static final String CONTAS_NOME_ARQUIVO = "contas.txt";
-    public static final String OPERACOES_NOME_ARQUIVO = "operacoes.txt";
 
     // Input Messages
     public static final String ENTER_SALDO = "ENTRE COM O SALDO DA CONTA: ";
@@ -58,7 +55,7 @@ public class Constants {
     public static final String ENTER_TITULAR = "ENTRE COM O NOME DO TITULAR: ";
     public static final String ENTER_CPF = "ENTRE COM SEU CPF: ";
     public static final String ENTER_CHEQUE = "ENTRE COM SEU SALDO ESPECIAL: ";
-    public static final String ENTER_SACAR = "ENTRE COM O VALOR DO SAQUE: ";
+    public static final String ENTER_VALOR = "ENTRE COM O VALOR DO OPERAÇÃO: ";
     // ContaPJ Input Messages
     public static final String ENTER_EMPRESA = "ENTRE COM O NOME DA EMPRESA: ";
     public static final String ENTER_CNPJ = "ENTRE COM SEU CNPJ: ";
@@ -70,7 +67,7 @@ public class Constants {
     public static final String ACCOUNT_NOT_FOUND = "Nenhuma conta encontrada!";
     public static final String EMPTY_LIST = "Lista Vazia!";
 
-
+    //OPÇÕES DE MENU
     public static final String MENU_PRINCIPAL = Constants.ANSI_PURPLE + "BANCO AT \n" + Constants.ANSI_RESET
             + Constants.ANSI_GREEN + "[1] INCLUIR CONTA\n"
             + "[2] ALTERAR SALDO\n"
@@ -88,7 +85,7 @@ public class Constants {
 
     public static final String MENU_RELATORIO = Constants.ANSI_BLUE + "LISTAR \n" + Constants.ANSI_RESET
             + Constants.ANSI_GREEN + "[1] CLIENTES COM SALDO NEGATIVO\n"
-            + "[2] CLIENTES COM SALDO ACIMA DE DETERMINADO VALOR\n"
+            + "[2] CLIENTES COM SALDO ACIMA DE 1000\n"
             + "[3] CONTAS SEPARADAS POR TIPO\n"
             + "[4] OPERAÇOES REALIZADAS EM DETERMINADA CONTA\n"+ Constants.ANSI_RESET
             + "[5] VOLTAR AO MENU ANTERIOR";
