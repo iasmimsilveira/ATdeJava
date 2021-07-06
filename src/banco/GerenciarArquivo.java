@@ -3,12 +3,13 @@ package banco;
 import auxiliar.TipoDeContaEnum;
 import java.io.File;
 import java.io.FileNotFoundException;
-import auxiliar.Util;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Scanner;
-import auxiliar.Constants;
-import auxiliar.TipoDeMsgEnum;
+import banco.ExecutarSistema;
 
 public class GerenciarArquivo {
 
@@ -43,6 +44,7 @@ public class GerenciarArquivo {
         String linha;
         String[] campos;
 
+        //contasScanner = contas.length();
         while (contasScanner.hasNext()) {
             linha = contasScanner.nextLine();
             campos = linha.split(";");
@@ -68,6 +70,47 @@ public class GerenciarArquivo {
         }
         return saida;
     }
+
+    /*public static Formatter abrirGravacao(String nomeArq) throws IOException {
+        final Path path = Files.createTempFile(nomeArq, ".txt");
+
+        if (arq.exists()) {
+            return arq;
+        }
+        try {
+            return new Formatter(nomeArq);
+        }
+        catch (FileNotFoundException ex) {
+            System.out.println("Erro: arquivo não pode ser gerado");
+        }
+
+        try {
+            saida = new Formatter(nomeArq);
+        } catch (FileNotFoundException ex) {
+            System.out.println("Erro: arquivo não pode ser gerado");
+        }
+        return saida;
+    }*/
+
+    /*public static File abrirGravacao(String nomeArq){
+        final Path path = Files.createTempFile(nomeArq,".txt");
+        if Files.notExists(path) {
+            path = new File(nomeArq);
+        }
+        return path;
+
+    public static File verificaArquivo() {
+        final String NOMEARQ = "/Users/Mesa/BancoAt 4";
+        File arq = new File(NOMEARQ);
+
+        if (arq.exists()) {
+            return arq;
+        }
+        else{
+            System.out.println("Arquivo não existe");
+        }
+        return;
+    }*/
 
     public static void gravarConta(Formatter exit, ArrayList<Conta> contas) {
         for (Conta conta : contas) {

@@ -9,8 +9,8 @@ public class Constants {
     public static final String ANSI_PURPLE = "\u001B[35m";
 
     // Nome dos arquivos txt
-    public static final String CONTAS_TXT = "contas.txt";
-    public static final String OPERACOES_TXT = "operacoes.txt";
+    public static final String CONTAS_TXT = "contas";
+    public static final String OPERACOES_TXT = "operacoes";
 
     //Tipo de Mensagem
     public static final String OUT = "out";

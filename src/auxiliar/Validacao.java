@@ -27,7 +27,7 @@ public final class Validacao {
         return conta.getSaldo() > 0;
     }
 
-    public static boolean contaRepetida(int numConta, ArrayList<Conta> contas) {
+    public static boolean pesquisaDeConta(int numConta, ArrayList<Conta> contas) {
         boolean possuiConta = false;
 
         for (Conta conta : contas) {
